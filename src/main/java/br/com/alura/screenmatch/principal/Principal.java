@@ -176,11 +176,12 @@ public class Principal {
         System.out.println("Qual a avaliação mínima que a série deve ter?");
         double avaliacaoMin = leitura.nextDouble();
 
-        List<Serie> seriesPorBuscaPersonalizada = repositorio.findByTotalTemporadasLessThanAndAvaliacaoGreaterThan(tempMax, avaliacaoMin);
-        if (seriesPorBuscaPersonalizada.isEmpty()) {
-            System.out.println("Nenhuma série com esses critérios foi encontrada!");
-        } else {
+        List<Serie> seriesPorBuscaPersonalizada = repositorio.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(tempMax, avaliacaoMin);
+        if (!seriesPorBuscaPersonalizada.isEmpty()) {
+            System.out.println("Séries com até " + tempMax + " temporadas e nota mínima de " + avaliacaoMin + ":");
             seriesPorBuscaPersonalizada.forEach(System.out::println);
+        } else {
+            System.out.println("Nenhuma série com esses critérios foi encontrada!");
         }
     }
 }
