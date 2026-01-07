@@ -37,6 +37,7 @@ public class Principal {
                     5 - Buscar série por ator
                     6 - Top 5 séries
                     7 - Buscar séries por categoria
+                    8 - Buscar série por máximo de temporada e mínimo de avaliação
                     
                     0 - Sair                                 
                     """;
@@ -67,6 +68,8 @@ public class Principal {
                 case 7:
                     buscarSeriesPorCategoria();
                     break;
+                case 8:
+                    buscaPersonalizada();
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -165,5 +168,19 @@ public class Principal {
         List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
         System.out.println("Séries da categoria: " + nomeGenero);
         seriesPorCategoria.forEach(System.out::println);
+    }
+
+    private void buscaPersonalizada() {
+        System.out.println("Qual o número máximo de temporadas?");
+        int tempMax = leitura.nextInt();
+        System.out.println("Qual a avaliação mínima que a série deve ter?");
+        double avaliacaoMin = leitura.nextDouble();
+
+        List<Serie> seriesPorBuscaPersonalizada = repositorio.findByTotalTemporadasLessThanAndAvaliacaoGreaterThan(tempMax, avaliacaoMin);
+        if (seriesPorBuscaPersonalizada.isEmpty()) {
+            System.out.println("Nenhuma série com esses critérios foi encontrada!");
+        } else {
+            seriesPorBuscaPersonalizada.forEach(System.out::println);
+        }
     }
 }
