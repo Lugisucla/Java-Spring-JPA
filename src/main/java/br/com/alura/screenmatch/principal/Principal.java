@@ -4,22 +4,21 @@ import br.com.alura.screenmatch.model.*;
 import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
 
-    private Scanner leitura = new Scanner(System.in);
-    private ConsumoApi consumo = new ConsumoApi();
-    private ConverteDados conversor = new ConverteDados();
+    private final Scanner leitura = new Scanner(System.in);
+    private final ConsumoApi consumo = new ConsumoApi();
+    private final ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=6585022c";
 
-    private List<DadosSerie> dadosSeries = new ArrayList<>();
+    private final List<DadosSerie> dadosSeries = new ArrayList<>();
 
-    private SerieRepository repositorio;
+    private final SerieRepository repositorio;
 
     private List<Serie> series = new ArrayList<>();
 
@@ -225,11 +224,12 @@ public class Principal {
     private void buscarEpisodiosDepoisDeUmaData() {
         buscarSeriePorTitulo();
         if(serieBusca.isPresent()){
+            Serie serie = serieBusca.get();
             System.out.println("Digite o ano limite de lançamento");
             var anoLancamento = leitura.nextInt();
             leitura.nextLine();
 
-            List<Episodio> episodiosAno = repositorio.episodiosPorSerieEAno();
+            List<Episodio> episodiosAno = repositorio.episodiosPorSerieEAno(serie, anoLancamento);
             episodiosAno.forEach(System.out::println);
         }
     }
